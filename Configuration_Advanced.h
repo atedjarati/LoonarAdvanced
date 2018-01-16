@@ -58,5 +58,6 @@ const float    CUTDOWN_LATITUDE_MIN =  -90.0000;                     // Minimum 
 const float    CUTDOWN_LATITUDE_MAX =  90.0000;                      // Maximum northern latitude boundary at which cutdown will occur.
 const float    CUTDOWN_LONGITUDE_MIN = -180.0000;                    // Minimum western longitude boundary at which cutdown will occur.
 const float    CUTDOWN_LONGITUDE_MAX = 180.0000;                     // Maximum eastern longitude boundary at which cutdown will occur. 
+const boolean  PICTURE =               false;                        // Set false to take videos, true to take pictures. 
 
 #endif /* UserConfiguration_h */

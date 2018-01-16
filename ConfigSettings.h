@@ -59,13 +59,15 @@ const int CUT_GATE =                   6;    // Gate pin for power to cutdown
 /********** CONSTANTS **********/  
       double   IRIDIUM_LOOP_TIME =                               6.0;                          // Loop time for Iridium in minutes. 
       long     INTERVAL_TIME =                                   1000;                         // Loop time for entire program in microseconds. 
+      boolean  VIDEO_TRIGGERED =                                 false;                        // Video triggered boolean. 
 const char     LANDED_COMMAND[] =                                {"Landed"};                   // Landed Command to be sent over radio/iridium communications for low power mode.
 const uint8_t  ADC_RESOLUTION =                                  12;                           // ADC Resolution in bits.
 const uint8_t  FCC_ID_INTERVAL =                                 10;                           // Every 'x' number of messages, we send our FCC ID. 
-const uint8_t  CAMERA_INTERVAL =                                 25;                           // Every 'x' number of loops, we take a picture. 
+const uint8_t  CAMERA_PICTURE_INTERVAL =                         25;                           // Every 'x' number of loops, we take a picture. 
+const uint8_t  CAMERA_VIDEO_INTERVAL =                           100;                          // Every video will be 'x' number of loops long. 
 const uint8_t  BUF_SIZE =                                        100;                          // Data array size for telemetry in bytes. 
 const int      GPS_ACQUISITION_TIME =                            200;                          // GPS Parser acquisition time per loop in milliseconds. 
-const float    SUPERCAP_MIN_LIMIT =                              4.9;                         // Minimum number of volts to charge the supercapacitor to during startup. 
+const float    SUPERCAP_MIN_LIMIT =                              4.9;                          // Minimum number of volts to charge the supercapacitor to during startup. 
 const float    SUPERCAP_CUTDOWN_VOLTAGE_MIN =                    2.9;                          // Voltage to drain the supercapacitor to during cutdown in volts. 
 const long     CUTDOWN_MAX_TIME =                                5000;                         // Maximum time to keep the cutdown active in milliseconds. 
 const uint8_t  MSG[] = {                                                                       // Command to send to GPS for high altitude mode upon startup.
