@@ -8,15 +8,17 @@
 // Use one of the pre-built radio configuration files
 // You can use other WDS generated sample configs accorinding to your needs
 // or generate a custom one with WDS and include it here
-// See RF24configs/README for file name encoding standard
-//#include "RF24configs/radio_config_Si4464_27_434_2GFSK_5_10.h"
-//#include "RF24configs/radio_config_Si4464_30_434_2GFSK_5_10.h"
-//#include "RF24configs/radio_config_Si4464_30_434_2GFSK_10_20.h"
-//#include "RF24configs/radio_config_Si4464_30_915_2GFSK_5_10.h"
-//#include "RF24configs/radio_config_Si4464_30_915_2GFSK_10_20.h"
-
-//#include "radio_config_Si4463_30_145_2GFSK_0.5_1.h"
-#include "loonar_radio_config_Si4463.h"
+//#include "Si4463_145MHz_2GFSK_200bps_400HzDev_2kHzRXBW.h"
+//#include "Si4463_145MHz_2GFSK_200bps_400HzDev_3kHzRXBW.h"
+//#include "Si4463_145MHz_2GFSK_300bps_600HzDev_2kHzRXBW.h"
+//#include "Si4463_145MHz_2GFSK_300bps_600HzDev_3kHzRXBW.h"
+//#include "Si4463_145MHz_2GFSK_300bps_600HzDev_5kHzRXBW.h"
+//#include "Si4463_145MHz_2GFSK_400bps_800HzDev_2kHzRXBW.h"
+//#include "Si4463_145MHz_2GFSK_400bps_800HzDev_4kHzRXBW.h"
+//#include "Si4463_145MHz_2GFSK_400bps_800HzDev_6kHzRXBW.h"
+#include "Si4463_145MHz_2GFSK_500bps_1kHzDev_3kHzRXBW.h"
+//#include "Si4463_145MHz_2GFSK_500bps_1kHzDev_5kHzRXBW.h"
+//#include "Si4463_145MHz_2GFSK_500bps_1kHzDev_7kHzRXBW.h"
 
 // Interrupt vectors for the 3 Arduino interrupt pins
 // Each interrupt can be handled by a different instance of RH_RF24, allowing you to have

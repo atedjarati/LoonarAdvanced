@@ -1,5 +1,5 @@
 /*
-Loonar Technologies Basic Kit Code
+Loonar Technologies Advanced Kit Code
  
 Copyright 2018 Loonar Technologies, LLC
 
@@ -68,6 +68,7 @@ IridiumSBD                isbd(Serial2, RB_SLEEP);             // Iridium Module
   float     flightDataTemperature;
   float     flightDataBatteryVoltage;
   float     flightDataSupercapVoltage;
+  float     flightDataSeconds;
   boolean   flightDataCutdown;
   boolean   flightDataLanded;
   boolean   flightDataHAM;
@@ -178,6 +179,7 @@ void setup()
   flightDataCutdown = false;                         // Initialize flight data structure cutdown boolean to false.
   flightDataLanded = false;                          // Initialize flight data structure landed boolean to false.
   flightDataMinutes = 0.0;                           // Initialize flight data structure minutes double to 0 minutes.
+  flightDataSeconds = 0.0;                           // Initialize flight data structure seconds float to 0 seconds. 
   flightDataIridiumTimer = 1.0;                      // Initialize flight data structure first iridium time to 1 minute. 
   flightDataCounter = 0;                             // Initialize the transmit counter to 0.
   flightDataTimeTwo = 0.0;                           // Initialize to 0.
@@ -190,9 +192,9 @@ void setup()
   init_bmp();                                        // Initialize the BMP 280 Pressure/Temperature sensor.
   setGPSFlightMode();                                // Configure the GPS for flight mode to work at high altitudes.
   initRF();                                          // Turn on and initialize the Radio module.
-  chargeSuperCapacitor();
-  FiveVOn();
-  initIridium();
+  chargeSuperCapacitor();                            // Charge the supercapacitor.
+  FiveVOn();                                         // Turn on the 5V Line.
+  initIridium();                                     // Initialize the Iridium Modem. 
   userSetupCode();                                   // Call the user setup function code. 
   flightDataStartTime = millis();                    // Initializes the start time of the entire program. 
 }
@@ -233,8 +235,9 @@ void loop()
 --------------------------------------------------------------------------------------------------------------*/
 void loonarCode ()
 {
-  smartdelay(GPS_ACQUISITION_TIME);
+  smartdelay(GPS_ACQUISITION_TIME);                       // Parse the GPS data.
   flightDataMinutes = getTime();                          // Acquire the current time since startup of the electronics. 
+  flightDataSeconds = flightDataMinutes*60.0;             // Get current seconds
   flightDataLatitude = getLatitude();                     // Parse the latitude data from the GPS.
   flightDataLongitude = getLongitude();                   // Parse the longitude data from the GPS. 
   flightDataLastAltitude = flightDataAltitude;            // Store the last altitude float variable. 
@@ -271,22 +274,22 @@ void loonarCode ()
 --------------------------------------------------------------------------------------------------------------*/
  float getAscentRate()
 {
-  static float ascent_rate_array[25] = {0.0};
+  static float ascent_rate_array[((int)ASCENT_RATE_BUFFER_SIZE)] = {0.0};
   static uint8_t ctr = 0;
   flightDataTimeTwo = millis();
   ascent_rate_array[ctr] = (float)(flightDataAltitude - flightDataLastAltitude)/((double)((flightDataTimeTwo - flightDataTimeOne)/1000.0));
   flightDataTimeOne = flightDataTimeTwo;
   ctr++;
-  if (ctr >= 25) 
+  if (ctr >= (int)ASCENT_RATE_BUFFER_SIZE) 
   {
     ctr = 0;
   }
   float ascent_rate = 0.0;
-  for (int i = 0; i < 25; i++)
+  for (int i = 0; i < (int)ASCENT_RATE_BUFFER_SIZE; i++)
   {
     ascent_rate += ascent_rate_array[i];
   }
-  ascent_rate /= 25.0;
+  ascent_rate /= ASCENT_RATE_BUFFER_SIZE;
   return ascent_rate;
 }
 
@@ -382,19 +385,21 @@ void loonarCode ()
 void getConfiguredData()
 {
   char data[BUF_SIZE] = {0};
-  flightDataBufferLength = sprintf(data, "%06d,%06d,%05d,%04d,%03d,%03d,%03d,%d,%d,%06d,%06d,%03d", 
+  
+  flightDataBufferLength = sprintf(data, "%06d %08d,%08d,%05d,%04d,%03d,%03d,%03d,%d,%d,%06d,%06d,%03d",
+    (int)(flightDataSeconds),                // Transmission time in seconds
     (int)(flightDataLatitude*10000),         // Latitude multiplied by 10,000
     (int)(flightDataLongitude*10000),        // Longitude multiplied by 10,000
     (int)(flightDataAltitude),               // Altitude in meters
-    (int)(flightDataAscentRate*100),         // Ascent rate in m/s
+    (int)(flightDataAscentRate*100),         // Ascent rate in m/s multipled by 100
     (int)(flightDataTemperature),            // Temperature in celsius
     (int)(flightDataBatteryVoltage*100),     // Battery voltage multiplied by 100
     (int)(flightDataSupercapVoltage*100),    // Supercap voltage multiplied by 100
     (int)(flightDataCutdown),                // Cutdown boolean
     (int)(flightDataLanded),                 // Landed boolean
     (int)(flightDataCounter),                // Counter
-
-     // User Configurable Data Below:
+    
+    // User Configurable Data Below:
     (int)(flightDataBMPAltitude),            // User configurable data #1: BMP Pressure in pascals
     (int)(flightDataBMPTemperature));        // User configurable data #2: BMP Temperature in celsius.
 
@@ -451,10 +456,28 @@ void getConfiguredData()
           chardat[i] = data[i];
         }
   
-        if (chardat[0] == 'L' && chardat[1] == 'a' && chardat[2] == 'n' && chardat[3] == 'd' && chardat[4] == 'e' && chardat[5] == 'd')
+        if (chardat[0] == LANDED_COMMAND[0] && 
+            chardat[1] == LANDED_COMMAND[1] && 
+            chardat[2] == LANDED_COMMAND[2] && 
+            chardat[3] == LANDED_COMMAND[3] && 
+            chardat[4] == LANDED_COMMAND[4] && 
+            chardat[5] == LANDED_COMMAND[5])
         {
           Serial.println("Command received to put payload in 'landed' mode.");
           flightDataLanded = true;
+        }
+        else if (chardat[0] == CUTDOWN_COMMAND[0] && 
+                 chardat[1] == CUTDOWN_COMMAND[1] && 
+                 chardat[2] == CUTDOWN_COMMAND[2] && 
+                 chardat[3] == CUTDOWN_COMMAND[3] && 
+                 chardat[4] == CUTDOWN_COMMAND[4] && 
+                 chardat[5] == CUTDOWN_COMMAND[5] && 
+                 chardat[6] == CUTDOWN_COMMAND[6])
+        {
+          if ((CUTDOWN_CONFIG == 4 || CUTDOWN_CONFIG == 5)) 
+          {
+            cutdownBalloon();
+          }
         }
         else
         {
@@ -627,7 +650,7 @@ void printLogfileHeaders()
 --------------------------------------------------------------------------------------------------------------*/
 void logToSDCard() 
 { 
-  logfile.print(flightDataMinutes);
+  logfile.print(flightDataSeconds);
   logfile.print(",");
   logfile.print(flightDataLatitude,4);
   logfile.print(",");
@@ -670,7 +693,7 @@ void logToSDCard()
 --------------------------------------------------------------------------------------------------------------*/
 void printToSerial() {
   Serial.print("Time: ");
-  Serial.print(flightDataMinutes);
+  Serial.print(flightDataSeconds);
   Serial.print(", ");
   Serial.print("Lat: ");
   Serial.print(flightDataLatitude,4);
@@ -704,6 +727,9 @@ void printToSerial() {
   Serial.print(", ");
   Serial.print("Land: ");
   Serial.print(flightDataLanded);
+  Serial.print(", ");
+  Serial.print("Cutdown: ");
+  Serial.print(flightDataCutdown);
   Serial.print(", ");
   Serial.print("Sats: ");
   Serial.print(tinygps.satellites());
@@ -1202,6 +1228,7 @@ void IridiumOn()
 --------------------------------------------------------------------------------------------------------------*/
  void chargeSuperCapacitor() 
 {
+  Serial.println("Charging the Supercapacitor, please be patient.");
   while(getSuperCapVoltage() <= SUPERCAP_MIN_LIMIT) 
   {
     delay(500);
@@ -1272,7 +1299,7 @@ void IridiumOn()
     flightDataIridiumTimer += IRIDIUM_LOOP_TIME;
 
     // If there is an incoming message
-    /*if (bufferSize > 0) 
+    if (bufferSize > 0) 
     {
       // Parse the received message to see if there was a cutdown command
       boolean shouldCutdown = true;
@@ -1321,7 +1348,7 @@ void IridiumOn()
       {
         messageReceived(flightDataFinalData, (uint8_t)bufferSize);
       }
-    }*/
+    }
   }
 }
 

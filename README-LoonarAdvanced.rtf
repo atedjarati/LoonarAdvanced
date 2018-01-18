@@ -1,0 +1,83 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504\cocoasubrtf830
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww15560\viewh15100\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Welcome to the Loonar Technologies Advanced Kit Code Repository! \
+
+\b \ul It is very important that you read this README in its entirety for your kit to work properly.
+\b0 \ulnone \
+Please refer to our website (https://loonar.tech) for tutorials on how to use and set up the kit.\
+This README will only cover how to configure the code for flight.\
+\
+\
+Copyright 2018 Loonar Technologies, LLC\
+\
+      THIS SOFTWARE IS PRESENTED WITH THE MIT LICENCE:\
+\
+* Permission is hereby granted, free of charge, to any person \
+* obtaining a copy of this software and associated documentation \
+* files (the "Software"), to deal in the Software without \
+* restriction, including without limitation the rights to use, \
+* copy, modify, merge, publish, distribute, sublicense, and/or \
+* sell copies of the Software, and to permit persons to whom the \
+* Software is furnished to do so, subject to the following conditions:\
+\
+* The above copyright notice and this permission notice shall be included \
+* in all copies or substantial portions of the Software.\
+\
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, \
+* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES \
+* OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. \
+* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR \
+* ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF \
+* CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION \
+* WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\
+\
+\
+\
+STEP 1: Make sure you have the latest version of Arduino and the Teensyduino. \
+\
+STEP 2: Make sure the folder the code was downloaded from is called \'93LoonarAdvanced.\'94 Double Click on LoonarAdvanced.ino.\
+\
+STEP 3: In the \'91Tools\'92 dropdown, select Teensy LC as your board, select CPU speed of 24MHz, and optimization as \'93Smallest Code with LTO.\'94\
+\
+STEP 4: Open \'93Configuration_Advanced.h\'94\
+\
+STEP 5: Under \'93User Defined Constants,\'94 enter your FCC License ID #.  The preset says ABCDEF.  
+\b If you do not have an FCC license, do not edit this field!
+\b0 \
+\
+STEP 6: Under \'93User Defined Constants,\'94 set FREQ to the carrier frequency you wish to transmit radio on.  This depends on the band allocation of your local zone.  
+\b It must be between 144 MHz and 148 MHz.   If you do not have an FCC license, do not edit this field!\
+\
+
+\b0 STEP 7: Under \'93User Defined Constants,\'94 set your launch latitude and longitude location in a decimal fashion. This is mandatory.\
+\
+STEP 8: Under \'93User Defined Constants,\'94 set CUTDOWN_CONFIG to your desired value. 0 for no cutdown, 1 for altitude cutdown, 2 for time cutdown, 3 for GPS fencing cutdown, 4 for Iridium cutdown, or 5 to enable all. \
+\
+STEP 9: Under \'93User Defined Constants,\'94 set CUTDOWN_ALTITUDE to the altitude you wish the balloon to cutdown once it reaches it.  There is no need to edit this field if you do not enable cutdown in STEP 8.\
+\
+STEP 10: Under \'93User Defined Constants,\'94 set CUTDOWN_TIME to the time after launch (in minutes) that you wish the balloon to cutdown once it passes this time.  There is no need to edit this field if you do not enable cutdown in STEP 8.\
+\
+STEP 11: Under \'93User Defined Constants,\'94 set CUTDOWN_LATITUDE_MIN as the minimum southern latitude boundary at which cutdown will occur.  There is no need to edit this field if you do not enable cutdown in STEP 8.\
+\
+STEP 12: Under \'93User Defined Constants,\'94 set CUTDOWN_LATITUDE_MAX as the maximum northern latitude boundary at which cutdown will occur.  There is no need to edit this field if you do not enable cutdown in STEP 8.\
+\
+STEP 13: Under \'93User Defined Constants,\'94 set CUTDOWN_LONGITUDE_MIN as the minimum western longitude boundary at which cutdown will occur.  There is no need to edit this field if you do not enable cutdown in STEP 8.\
+\
+STEP 14: Under \'93User Defined Constants,\'94 set CUTDOWN_LONGITUDE_MAX as the maximum eastern longitude boundary at which cutdown will occur.  There is no need to edit this field if you do not enable cutdown in STEP 8.\
+\
+STEP 15: Under \'93User Defined Constants,\'94 set PICTURE to \'91false\'92 if you would like the Advanced kit to take videos, or \'91true\'92 if you would like the Advanced kit to take pictures.  \
+\
+STEP 16: Under \'93PINOUT,\'94 take note of the broken out GPIO/ADC/DAC pins that you have available. \
+\
+STEP 17:  Open LoonarAdvanced.ino.  Scroll to the functions \'91userSetupCode(),\'92 \'91userLoopCode(),\'92 and \'91messageReceived().\'92   You can treat \'93userSetupCode\'92 as you would \'91setup()\'92 on a regular Arduino.  You can treat \'93userLoopCode\'94 as you would \'93loop()\'94 on a regular Arduino.  You only have access to the broken out pins from STEP 16.  The function \'93messageReceived()\'94 is called every time you send a message from the ground to the balloon.  The data is passed into a buffer.  Do with the data as you please.  
+\b Be aware that if your code is blocking, it WILL stop the Loonar Code from working. 
+\i \ul LOONAR TECHNOLOGIES TAKES NO RESPONSIBILITY FOR ANY EDITS OF THE CODE OUTSIDE OF \'93Configuration_Advanced.h\'94!!!!!
+\i0\b0 \ulnone \
+\
+STEP 18:  Verify/Compile your code, and upload it to your Advanced kit mainboard!\
+}
