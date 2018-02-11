@@ -46,17 +46,17 @@ const int BREAKOUT_4 =                 A12;  // Breakout pin #4 - Labeled as 'GP
 
 
 /********** USER DEFINED CONSTANTS **********/
-const uint8_t  FCCID[6] =              {'A','B','C','D','E','F'};    // FCC Radio License Callsign.
+const uint8_t  FCCID[6] =              {'K','K','6','M','I','S'};    // FCC Radio License Callsign.
 const double   FREQ =                  145.0;                        // Center frequency in MHz for the radio module.
 const float    LAUNCH_LATITUDE =       0.0000;                       // Launch Location Latitude
 const float    LAUNCH_LONGITUDE =      0.0000;                       // Launch Location Longitude
-const uint8_t  CUTDOWN_CONFIG =        0;                            // 0 for no cutdown, 1 for altitude cutdown, 2 for time cutdown, 3 for GPS fencing cutdown, 4 for Iridium cutdown, 5 for all. 
+const uint8_t  CUTDOWN_CONFIG =        4;                            // 0 for no cutdown, 1 for altitude cutdown, 2 for time cutdown, 3 for GPS fencing cutdown, 4 for Iridium cutdown, 5 for all. 
 const float    CUTDOWN_ALTITUDE =      25000.0;                      // Altitude at which cutdown will occur. 
 const float    CUTDOWN_TIME =          100.0;                        // Time after initialization at which cutdown will occur in minutes.
 const float    CUTDOWN_LATITUDE_MIN =  -90.0000;                     // Minimum southern latitude boundary at which cutdown will occur. 
 const float    CUTDOWN_LATITUDE_MAX =  90.0000;                      // Maximum northern latitude boundary at which cutdown will occur.
 const float    CUTDOWN_LONGITUDE_MIN = -180.0000;                    // Minimum western longitude boundary at which cutdown will occur.
 const float    CUTDOWN_LONGITUDE_MAX = 180.0000;                     // Maximum eastern longitude boundary at which cutdown will occur. 
-const boolean  PICTURE =               false;                        // Set false to take videos, true to take pictures. 
+const boolean  PICTURE =               false;                         // Set false to take videos, true to take pictures. 
 
 #endif /* UserConfiguration_h */

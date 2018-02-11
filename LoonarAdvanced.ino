@@ -274,7 +274,7 @@ void loonarCode ()
 --------------------------------------------------------------------------------------------------------------*/
  float getAscentRate()
 {
-  static float ascent_rate_array[((int)ASCENT_RATE_BUFFER_SIZE)] = {0.0};
+  static float ascent_rate_array[50] = {0.0};
   static uint8_t ctr = 0;
   flightDataTimeTwo = millis();
   ascent_rate_array[ctr] = (float)(flightDataAltitude - flightDataLastAltitude)/((double)((flightDataTimeTwo - flightDataTimeOne)/1000.0));
@@ -319,7 +319,7 @@ void loonarCode ()
 
   if (flightDataLanded)
   {
-    INTERVAL_TIME = 300000; 
+    INTERVAL_TIME = 100000; 
   }
 }
 
@@ -407,10 +407,10 @@ void getConfiguredData()
   //Serial.print("Transmitting Data: ");
   for (int i = 0; i < BUF_SIZE; i++)
   {
-    //Serial.print(data[i]);
+    Serial.print(data[i]);
     flightDataFinalData[i] = data[i];    
   } 
-  //Serial.println();
+  Serial.println();
   flightDataCounter++;
 }
 
@@ -485,6 +485,7 @@ void getConfiguredData()
         }
         break;
       }
+      delay(100);
     }
   }
 }
@@ -527,7 +528,7 @@ void getConfiguredData()
       Serial.println("Taking a photo.  Smile!");
       CameraOn();
       CameraDeTrigger();
-      delay(7000);
+      delay(20000);
       CameraTrigger();
       delay(300);
       CameraDeTrigger();
@@ -543,9 +544,10 @@ void getConfiguredData()
     {
       if (!VIDEO_TRIGGERED)
       {
+        Serial.println("Starting video");
         CameraOn();
         CameraDeTrigger();
-        delay(5000);
+        delay(20000);
         CameraTrigger();
         delay(1000);
         CameraDeTrigger();
@@ -553,10 +555,11 @@ void getConfiguredData()
       }
       else
       {
+        Serial.println("Restarting video");
         CameraTrigger();
         delay(1000);
         CameraDeTrigger();
-        delay(5000);
+        delay(8000);
         CameraTrigger();
         delay(1000);
         CameraDeTrigger();

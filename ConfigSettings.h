@@ -58,15 +58,15 @@ const int CUT_GATE =                   6;    // Gate pin for power to cutdown
 
 /********** CONSTANTS **********/  
       double   IRIDIUM_LOOP_TIME =                               6.0;                          // Loop time for Iridium in minutes. 
-      long     INTERVAL_TIME =                                   1000;                         // Loop time for entire program in microseconds. 
+      long     INTERVAL_TIME =                                   500;                         // Loop time for entire program in microseconds. 
       boolean  VIDEO_TRIGGERED =                                 false;                        // Video triggered boolean. 
 const char     LANDED_COMMAND[] =                                {"Landed"};                   // Landed Command to be sent over radio/iridium communications for low power mode.
 const char     CUTDOWN_COMMAND[] =                               {"Cutdown"};                  // Cutdown Command to be sent over radio/iridium communications.
 const uint8_t  ADC_RESOLUTION =                                  12;                           // ADC Resolution in bits.
 const uint8_t  FCC_ID_INTERVAL =                                 10;                           // Every 'x' number of messages, we send our FCC ID. 
-const uint8_t  CAMERA_PICTURE_INTERVAL =                         25;                           // Every 'x' number of loops, we take a picture. 
-const uint8_t  CAMERA_VIDEO_INTERVAL =                           100;                          // Every video will be 'x' number of loops long. 
-const uint8_t  BUF_SIZE =                                        100;                          // Data array size for telemetry in bytes. 
+const uint8_t  CAMERA_PICTURE_INTERVAL =                         20;                           // Every 'x' number of loops, we take a picture. 
+const uint8_t  CAMERA_VIDEO_INTERVAL =                           10;                           // Every video will be 'x' number of loops long. 
+const uint8_t  BUF_SIZE =                                        69;                           // Data array size for telemetry in bytes. 
 const int      GPS_ACQUISITION_TIME =                            200;                          // GPS Parser acquisition time per loop in milliseconds. 
 const float    ASCENT_RATE_BUFFER_SIZE =                         50.0;                         // Size of the ascent rate buffer.
 const float    SUPERCAP_MIN_LIMIT =                              4.9;                          // Minimum number of volts to charge the supercapacitor to during startup. 
